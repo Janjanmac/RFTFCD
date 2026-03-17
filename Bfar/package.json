@@ -2,10 +2,12 @@
   "name": "bfar",
   "version": "1.0.0",
   "scripts": {
+      "install": "npm install --legacy-peer-deps",
     "dev": "vite",
     "build": "vite build"
   },
   "dependencies": {
+    "vite": "^5.2.0",
     "vue": "^3.3.0"
   },
   "devDependencies": {
