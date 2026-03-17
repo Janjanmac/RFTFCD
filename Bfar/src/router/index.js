@@ -33,9 +33,9 @@ import UserDFW2030 from '../views/User/UserDFW2030.vue'
 import UserMasterlistDashboard from "../views/User/UserMasterlistDashboard.vue"
 
 const routes = [
-  { path: '/login', name: 'Login', component: Login },
+  { path: '/', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true, role: 'admin' } },
+  { path: '/Dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true, role: 'admin' } },
   { path: '/students', name: 'Students', component: Students, meta: { requiresAuth: true, role: 'admin' } },
   { path: "/2024", name: "DeputizedDashboard", component: DeputizedDashboard, meta: { requiresAuth: true, role: 'admin' } },
   { path: "/DFWARDENDashboard", name: "DFWARDENDashboard", component: DFWARDENDashboard, meta: { requiresAuth: true, role: 'admin' } },
