@@ -94,7 +94,7 @@ async function restore(row){
 
     // Remove locally
     const i = archive.value.indexOf(row)
-    if(i>-1) archive.value.splice(i,1)
+    if(i>-1) archive.value.splice(i,1)  
   } catch(err){
     console.error(err)
   }
