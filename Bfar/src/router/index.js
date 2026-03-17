@@ -4,7 +4,7 @@ import AdminDashboard from '../views/Admin/AdminDashboard.vue'
 import UserDashboard from '../views/User/UserDashboard.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Admin/AdminDashboard.vue'
-import Students from '../views/Student.vue'
+
 import SecondDashboard from '../components/DFWDashboard.vue'
 import DeputizedDashboard from "../views/Admin/MasterlistDashboard.vue"
 import DFWARDENDashboard from "../views/Admin/DFW2024.vue"
@@ -15,8 +15,8 @@ import DFW2028 from '../views/Admin/DFW2028.vue'
 import DFW2029 from '../views/Admin/DFW2029.vue'
 import DFW2030 from '../views/Admin/DFW2030.vue'
 import DFWArchiveDashboard from "../views/Admin/DFWArchiveDashboard.vue"
-import DFWArchive2024 from '@/views/Admin/DFWArchive2024.vue'
-import DFWArchive2025 from "@/views/Admin/DFWArchive2025.vue"
+import DFWArchive2024 from '../views/Admin/DFWArchive2024.vue'
+import DFWArchive2025 from "../views/Admin/DFWArchive2025.vue"
 import DFWArchive2026 from '../views/Admin/DFWArchive2026.vue'
 import DFWArchive2027 from '../views/Admin/DFWArchive2027.vue'
 import DFWArchive2028 from '../views/Admin/DFWArchive2028.vue'
@@ -34,9 +34,9 @@ import UserMasterlistDashboard from "../views/User/UserMasterlistDashboard.vue"
 
 const routes = [
   { path: '/', name: 'Login', component: Login },
-  { path: '/register', name: 'Register', component: Register },
+  { path: '/Register', name: 'Register', component: Register },
   { path: '/Dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true, role: 'admin' } },
-  { path: '/students', name: 'Students', component: Students, meta: { requiresAuth: true, role: 'admin' } },
+ 
   { path: "/2024", name: "DeputizedDashboard", component: DeputizedDashboard, meta: { requiresAuth: true, role: 'admin' } },
   { path: "/DFWARDENDashboard", name: "DFWARDENDashboard", component: DFWARDENDashboard, meta: { requiresAuth: true, role: 'admin' } },
   { path: '/admin-dashboard', name: 'AdminDashboard', component: AdminDashboard, meta: { requiresAuth: true, role: 'admin' } },
