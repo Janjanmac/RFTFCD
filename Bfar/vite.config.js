@@ -10,6 +10,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist', // ensure Vite outputs here
+    outDir: 'dist',       // must match vercel.json
+    emptyOutDir: true     // ensures old files are cleared
   }
 })
