@@ -35,10 +35,10 @@ const routes = [
   // ✅ FIXED ROOT
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/Login'
   },
   {
-    path: '/login',
+    path: '/Login',
     name: 'Login',
     component: Login
   },
