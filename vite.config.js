@@ -11,7 +11,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist',       // must match vercel.json
-    emptyOutDir: true     // ensures old files are cleared
+    outDir: 'dist',
+    emptyOutDir: true
   }
 })
