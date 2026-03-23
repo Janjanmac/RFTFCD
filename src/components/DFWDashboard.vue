@@ -8,7 +8,7 @@
         <router-link to="/2024">Masterlist</router-link>
         <li><router-link to="/DFWArchiveDashboard">DFW Archive</router-link></li>
         <li><router-link to="/Dashboard">Back</router-link></li>
-         <li><router-link to="/login">Logout</router-link></li>
+         <li><a href="#" @click="logout" class="logout-link">Logout</a></li>
       </ul>
     </div>
 
@@ -366,6 +366,8 @@ transition:left .3s;
 .sidebar ul{ list-style:none; padding:0; }
 .sidebar li{ margin:15px 0; }
 .sidebar a{ text-decoration:none; font-size:25px; color:black; }
+.sidebar a.logout-link { color: #d32f2f; }
+.sidebar a.logout-link:hover { color: #b71c1c; }
 
 .page{ flex:1; padding:35px; transition:margin-left .3s; }
 .page.shifted{ margin-left:250px; }

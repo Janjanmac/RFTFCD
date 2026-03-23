@@ -128,6 +128,14 @@ filteredMunicipalities:[]
 }
 },
 
+mounted() {
+  // 🔒 BLOCK BACK BUTTON
+  window.history.pushState(null, null, window.location.href)
+  window.onpopstate = function () {
+    window.history.pushState(null, null, window.location.href)
+  }
+},
+
 methods:{
 
 filterMunicipalities(){

@@ -33,7 +33,7 @@ export default {
     alert("Logged out successfully");
 
     // Use replace para hindi pwedeng back button
-    router.replace("/login");
+router.replace({ name: 'Login' });
 
   } catch (error) {
     console.log(error);
