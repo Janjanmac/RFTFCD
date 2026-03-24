@@ -109,24 +109,17 @@ const router = createRouter({
 })
 
 // Auth Guard
-router.beforeEach((to, from, next) => {
-  const authRequired = to.meta?.requiresAuth
-  const loggedIn = sessionStorage.getItem('user')
 
-  if (authRequired && !loggedIn) {
-    return next({ name: 'Login' })
+// 🔒 4️⃣ Vue Router Protection (Authentication Check)
+router.beforeEach((to, from) => {
+  const isAuthenticated = !!localStorage.getItem('user') // Example auth check
+
+  if (!isAuthenticated && to.path !== '/') {
+    return '/' // Redirect to home if not authenticated
   }
 
-  if (loggedIn) {
-    const userRole = JSON.parse(loggedIn).role
-
-    if (to.meta?.role && to.meta.role !== userRole) {
-      if (userRole === 'admin') return next({ name: 'AdminDashboard' })
-      if (userRole === 'user') return next({ name: 'UserDashboard' })
-    }
-  }
-
-  next()
+  return true // Allow navigation
 })
+
 
 export default router
