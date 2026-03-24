@@ -226,8 +226,8 @@ remember
 /* CONTAINER */
 .login-container{
   width:100%;
-  max-width:1100px; /* FIX: responsive */
-  height:650px; /* FIX: mas balanced */
+  max-width:900px; /* REDUCED: from 1100px to 900px */
+  height:550px; /* REDUCED: from 650px to 550px */
 
   display:flex;
 
