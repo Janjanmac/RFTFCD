@@ -1,266 +1,267 @@
-<template>
-  <div class="login-page">
-    <!-- Animated Background Elements -->
-    <div class="background-decoration">
-      <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-        <div class="shape shape-5"></div>
-        <div class="shape shape-6"></div>
+  <template>
+    <div class="login-page">
+      <!-- Animated Background Elements -->
+      <div class="background-decoration">
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
+          <div class="shape shape-5"></div>
+          <div class="shape shape-6"></div>
+        </div>
+        <div class="gradient-orbs">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
+        </div>
       </div>
-      <div class="gradient-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-      </div>
-    </div>
 
-    <div class="login-container">
-      <!-- LEFT SIDE -->
-      <div class="login-left">
-        <div class="auth-card">
-          <!-- Logo Section -->
-          <div class="logo-section">
-            <div class="logo-wrapper">
-              <div class="logo">
-                <div class="logo-icon">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
-                    <path d="M24 12 L28 20 L24 28 L20 20 Z" fill="currentColor"/>
-                    <circle cx="24" cy="24" r="2.5" fill="currentColor"/>
-                    <text x="24" y="38" text-anchor="middle" font-size="6" fill="currentColor" font-weight="bold">BFAR</text>
-                  </svg>
-                </div>
-                <h1>BFAR</h1>
-                <p>Fish Warden Information System</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Welcome Section -->
-          <div class="welcome-section">
-            <h2>Welcome Back!</h2>
-            <p class="subtitle">Please log in to your account to continue</p>
-            <div class="security-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-              </svg>
-              <span>Secure Government Portal</span>
-            </div>
-          </div>
-
-          <!-- Login Form -->
-          <form @submit.prevent="loginUser" class="login-form">
-            <!-- Email Input -->
-            <div class="form-group">
-              <label for="email" class="form-label">
-                <div class="label-content">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="4" width="20" height="16" rx="2"/>
-                    <path d="m22 7-10 5L2 7"/>
-                  </svg>
-                  <span>Email Address</span>
-                </div>
-                <span class="required">*</span>
-              </label>
-              <div class="input-wrapper">
-                <div class="input-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="4" width="20" height="16" rx="2"/>
-                    <path d="m22 7-10 5L2 7"/>
-                  </svg>
-                </div>
-                <input
-                  id="email"
-                  v-model="email"
-                  type="email"
-                  placeholder="Enter your government email"
-                  required
-                  class="form-input"
-                  autocomplete="email"
-                />
-                <div class="input-status">
-                  <svg v-if="email && email.includes('@')" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
-                    <polyline points="20,6 9,17 4,12"/>
-                  </svg>
+      <div class="login-container">
+        <!-- LEFT SIDE -->
+        <div class="login-left">
+          <div class="auth-card">
+            <!-- Logo Section -->
+            <div class="logo-section">
+              <div class="logo-wrapper">
+                <div class="logo">
+                  <div class="logo-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
+                      <path d="M24 12 L28 20 L24 28 L20 20 Z" fill="currentColor"/>
+                      <circle cx="24" cy="24" r="2.5" fill="currentColor"/>
+                      <text x="24" y="38" text-anchor="middle" font-size="6" fill="currentColor" font-weight="bold">BFAR</text>
+                    </svg>
+                  </div>
+                  <h1>BFAR</h1>
+                  <p>Fish Warden Information System</p>
                 </div>
               </div>
             </div>
 
-            <!-- Password Input -->
-            <div class="form-group">
-              <label for="password" class="form-label">
-                <div class="label-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+              <h2>Welcome Back!</h2>
+              <p class="subtitle">Please log in to your account to continue</p>
+              <div class="security-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                </svg>
+                <span>Secure Government Portal</span>
+              </div>
+            </div>
+
+            <!-- Login Form -->
+            <form @submit.prevent="loginUser" class="login-form">
+              <!-- Email Input -->
+              <div class="form-group">
+                <label for="email" class="form-label">
+                  <div class="label-content">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="4" width="20" height="16" rx="2"/>
+                      <path d="m22 7-10 5L2 7"/>
+                    </svg>
+                    <span>Email Address</span>
+                  </div>
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <div class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="4" width="20" height="16" rx="2"/>
+                      <path d="m22 7-10 5L2 7"/>
+                    </svg>
+                  </div>
+                  <input
+                    id="email"
+                    v-model="email"
+                    type="email"
+                    placeholder="Enter your government email"
+                    required
+                    class="form-input"
+                    autocomplete="email"
+                  />
+                  <div class="input-status">
+                    <svg v-if="email && email.includes('@')" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                      <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Password Input -->
+              <div class="form-group">
+                <label for="password" class="form-label">
+                  <div class="label-content">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <circle cx="12" cy="16" r="1"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                    <span>Password</span>
+                  </div>
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                  <div class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <circle cx="12" cy="16" r="1"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                  </div>
+                  <input
+                    id="password"
+                    :type="showPassword ? 'text' : 'password'"
+                    v-model="password"
+                    placeholder="Enter your secure password"
+                    required
+                    class="form-input"
+                    autocomplete="current-password"
+                  />
+                  <div class="password-strength" v-if="password">
+                    <div class="strength-bar" :class="getPasswordStrength()"></div>
+                  </div>
+                  <button 
+                    type="button" 
+                    class="password-toggle"
+                    @click="showPassword = !showPassword"
+                    :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                  >
+                    <svg v-if="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Options Row -->
+              <div class="form-options">
+                <a href="#" class="forgot-link">Forgot password?</a>
+              </div>
+
+              <!-- Error Message -->
+              <div v-if="error" class="error-message" role="alert">
+                <div class="error-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </div>
+                <div class="error-content">
+                  <strong>Authentication Error</strong>
+                  <span class="error-text">{{ error }}</span>
+                </div>
+                <button class="error-close" @click="error = ''">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <circle cx="12" cy="16" r="1"/>
-                    <path d="M7 11V7a5 5 0 0110 0v4"/>
-                  </svg>
-                  <span>Password</span>
-                </div>
-                <span class="required">*</span>
-              </label>
-              <div class="input-wrapper">
-                <div class="input-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <circle cx="12" cy="16" r="1"/>
-                    <path d="M7 11V7a5 5 0 0110 0v4"/>
-                  </svg>
-                </div>
-                <input
-                  id="password"
-                  :type="showPassword ? 'text' : 'password'"
-                  v-model="password"
-                  placeholder="Enter your secure password"
-                  required
-                  class="form-input"
-                  autocomplete="current-password"
-                />
-                <div class="password-strength" v-if="password">
-                  <div class="strength-bar" :class="getPasswordStrength()"></div>
-                </div>
-                <button 
-                  type="button" 
-                  class="password-toggle"
-                  @click="showPassword = !showPassword"
-                  :aria-label="showPassword ? 'Hide password' : 'Show password'"
-                >
-                  <svg v-if="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                  </svg>
-                  <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
-                    <line x1="1" y1="1" x2="23" y2="23"/>
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
                   </svg>
                 </button>
               </div>
-            </div>
 
-            <!-- Options Row -->
-            <div class="form-options">
-              <a href="#" class="forgot-link">Forgot password?</a>
-            </div>
-
-            <!-- Error Message -->
-            <div v-if="error" class="error-message" role="alert">
-              <div class="error-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="8" x2="12" y2="12"/>
-                  <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-              </div>
-              <div class="error-content">
-                <strong>Authentication Error</strong>
-                <span class="error-text">{{ error }}</span>
-              </div>
-              <button class="error-close" @click="error = ''">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+              <!-- Submit Button -->
+              <button type="submit" class="login-btn" :disabled="!email || !password || isLoading">
+                <span class="btn-text" v-if="!isLoading">Sign In</span>
+                <div class="btn-loading" v-if="isLoading">
+                  <div class="spinner"></div>
+                  <span>Signing in...</span>
+                </div>
+                <div class="btn-icon" v-if="!isLoading">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+                    <polyline points="10,17 15,12 10,7"/>
+                    <line x1="15" y1="12" x2="3" y2="12"/>
+                  </svg>
+                </div>
               </button>
-            </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="login-btn" :disabled="!email || !password || isLoading">
-              <span class="btn-text" v-if="!isLoading">Sign In</span>
-              <div class="btn-loading" v-if="isLoading">
-                <div class="spinner"></div>
-                <span>Signing in...</span>
+              <!-- Create Account Link -->
+              <div class="create-account">
+                <span>New to BFAR System?</span>
+                <router-link to="/register" class="create-link">
+                  Create your account
+                </router-link>
               </div>
-              <div class="btn-icon" v-if="!isLoading">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
-                  <polyline points="10,17 15,12 10,7"/>
-                  <line x1="15" y1="12" x2="3" y2="12"/>
-                </svg>
-              </div>
-            </button>
 
-            <!-- Create Account Link -->
-            <div class="create-account">
-              <span>New to BFAR System?</span>
-              <router-link to="/register" class="create-link">
-                Create your account
-              </router-link>
-            </div>
-
-            <!-- Additional Links -->
-            <div class="additional-links">
-              <a href="#" class="help-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
-                  <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                Need help?
-              </a>
-              <a href="#" class="policy-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                  <polyline points="14,2 14,8 20,8"/>
-                </svg>
-                Privacy Policy
-              </a>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- RIGHT SIDE -->
-      <div class="login-right">
-        <div class="image-overlay"></div>
-        <img src="../assets/bfar.jpg" alt="BFAR Fisheries Operations" class="hero-image">
-        
-        <div class="content-overlay">
-          <div class="system-info">
-            <div class="system-header">
-              <h2>BFAR Monitoring System</h2>
-            </div>
-            <p>Protecting and conserving Philippine aquatic resources through sustainable management and advanced technology.</p>
-            
-            <!-- Stats Section -->
-            <div class="stats-section">
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9,22 9,12 15,12 15,22"/>
-                  </svg>
-                </div>
-                <div class="stat-content">
-                  <span class="stat-number">{{ stats.islandsProtected }}</span>
-                  <span class="stat-label">Islands Protected</span>
-                </div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                  </svg>
-                </div>
-                <div class="stat-content">
-                  <span class="stat-number">{{ stats.activeWardens }}</span>
-                  <span class="stat-label">Active Wardens</span>
-                </div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/>
+              <!-- Additional Links -->
+              <div class="additional-links">
+                <a href="#" class="help-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
                     <line x1="12" y1="17" x2="12.01" y2="17"/>
                   </svg>
+                  Need help?
+                </a>
+                <a href="#" class="policy-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                  </svg>
+                  Privacy Policy
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="login-right">
+          <div class="image-overlay"></div>
+          <img src="../assets/bfar.jpg" alt="BFAR Fisheries Operations" class="hero-image">
+          
+          <div class="content-overlay">
+            <div class="system-info">
+              <div class="system-header">
+                <h2>BFAR Monitoring System</h2>
+              </div>
+              <p>Protecting and conserving Philippine aquatic resources through sustainable management and advanced technology.</p>
+              
+              <!-- Stats Section -->
+              <div class="stats-section">
+                <div class="stat-item">
+                  <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                      <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-number">{{ stats.islandsProtected }}</span>
+                    <span class="stat-label">Islands Protected</span>
+                  </div>
                 </div>
-                <div class="stat-content">
-                  <span class="stat-number">{{ stats.expiredWardens }}</span>
-                  <span class="stat-label">Expired Wardens</span>
+                <div class="stat-item">
+                  <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-number">{{ stats.activeWardens }}</span>
+                    <span class="stat-label">Active Wardens</span>
+                  </div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                      <line x1="12" y1="9" x2="12" y2="13"/>
+                      <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  </div>
+                  <div class="stat-content">
+                    <span class="stat-number">{{ stats.expiredWardens }}</span>
+                    <span class="stat-label">Expired Wardens</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -268,8 +269,7 @@
         </div>
       </div>
     </div>
-  </div>
-</template>
+  </template>
 
   <script setup>
   import { ref, onMounted, computed } from "vue"
@@ -397,9 +397,6 @@
   </script>
 
   <style scoped>
-  /* ============================
-    CSS VARIABLES
-    ============================ */
  /* ============================
    CSS VARIABLES
    ============================ */
