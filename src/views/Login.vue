@@ -426,7 +426,7 @@
     PAGE LAYOUT
     ============================ */
   .login-page {
-    min-height: 70vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
