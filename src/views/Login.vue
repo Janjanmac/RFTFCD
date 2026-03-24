@@ -21,7 +21,7 @@
       <!-- LEFT SIDE -->
       <div class="login-left">
         <div class="auth-card">
-          <!-- Logo Section with Animation -->
+          <!-- Logo Section -->
           <div class="logo-section">
             <div class="logo-wrapper">
               <div class="logo">
@@ -66,6 +66,12 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrapper">
+                <div class="input-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-10 5L2 7"/>
+                  </svg>
+                </div>
                 <input
                   id="email"
                   v-model="email"
@@ -97,6 +103,13 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrapper">
+                <div class="input-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <circle cx="12" cy="16" r="1"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                </div>
                 <input
                   id="password"
                   :type="showPassword ? 'text' : 'password'"
@@ -129,11 +142,6 @@
 
             <!-- Options Row -->
             <div class="form-options">
-              <!-- <label class="checkbox-label">
-                <input type="checkbox" v-model="remember" class="checkbox">
-                <span class="checkmark"></span>
-                <span>Remember me for 30 days</span>
-              </label> -->
               <a href="#" class="forgot-link">Forgot password?</a>
             </div>
 
@@ -159,17 +167,18 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="login-btn" :disabled="!email || !password">
-              <span class="btn-text">Sign In</span>
-              <div class="btn-icon">
+            <button type="submit" class="login-btn" :disabled="!email || !password || isLoading">
+              <span class="btn-text" v-if="!isLoading">Sign In</span>
+              <div class="btn-loading" v-if="isLoading">
+                <div class="spinner"></div>
+                <span>Signing in...</span>
+              </div>
+              <div class="btn-icon" v-if="!isLoading">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
                   <polyline points="10,17 15,12 10,7"/>
                   <line x1="15" y1="12" x2="3" y2="12"/>
                 </svg>
-              </div>
-              <div class="btn-loading" v-if="isLoading">
-                <div class="spinner"></div>
               </div>
             </button>
 
@@ -212,10 +221,6 @@
           <div class="system-info">
             <div class="system-header">
               <h2>BFAR Monitoring System</h2>
-              <!-- <div class="live-indicator">
-                <span class="live-dot"></span>
-                <span>System Active</span>
-              </div> -->
             </div>
             <p>Protecting and conserving Philippine aquatic resources through sustainable management and advanced technology.</p>
             
@@ -259,54 +264,6 @@
                 </div>
               </div>
             </div>
-            
-            <!-- Features
-            <div class="features">
-              <div class="feature-item">
-                <div class="feature-icon">🛡️</div>
-                <div class="feature-content">
-                  <strong>Real-time Protection</strong>
-                  <span>AI-powered monitoring system</span>
-                </div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">📊</div>
-                <div class="feature-content">
-                  <strong>Advanced Analytics</strong>
-                  <span>Predictive modeling insights</span>
-                </div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">🌊</div>
-                <div class="feature-content">
-                  <strong>Marine Conservation</strong>
-                  <span>Biodiversity protection</span>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- System Status 
-            <div class="system-status">
-              <h4>System Status</h4>
-              <div class="status-grid">
-                <div class="status-item">
-                  <span class="status-label">Network</span>
-                  <span class="status-value optimal">Optimal</span>
-                </div>
-                <div class="status-item">
-                  <span class="status-label">Database</span>
-                  <span class="status-value healthy">Healthy</span>
-                </div>
-                <div class="status-item">
-                  <span class="status-label">API</span>
-                  <span class="status-value fast">12ms</span>
-                </div>
-                <div class="status-item">
-                  <span class="status-label">Uptime</span>
-                  <span class="status-value uptime">99.9%</span>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -322,201 +279,125 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore"
 import { useRouter } from "vue-router"
 
 export default {
+  setup() {
+    const email = ref("")
+    const password = ref("")
+    const error = ref("")
+    const showPassword = ref(false)
+    const remember = ref(false)
+    const isLoading = ref(false)
 
-setup(){              
-
-const email = ref("")
-const password = ref("")
-const error = ref("")
-const showPassword = ref(false)
-const remember = ref(false)
-const isLoading = ref(false)
-
-// Statistics
-const stats = ref({
-  islandsProtected: 0,
-  activeWardens: 0,
-  expiredWardens: 0
-})
-
-const router = useRouter()
-
-// ✅ FIXED FETCH STATS
-const fetchStats = async () => {
-  try {
-    const usersRef = collection(db, "users")
-    const usersSnapshot = await getDocs(usersRef)
-
-    let activeCount = 0
-    let expiredCount = 0
-
-    const today = new Date()
-    today.setHours(0,0,0,0)
-
-    console.log("TOTAL USERS:", usersSnapshot.size)
-    console.log("TODAY'S DATE:", today.toDateString())
-
-    usersSnapshot.forEach((docSnap) => {
-      const userData = docSnap.data()
-
-      let expiryDate = null   
-
-      // ✅ HANDLE FIRESTORE TIMESTAMP + STRING
-      if (userData.licenseExpiry) {
-        expiryDate = userData.licenseExpiry?.toDate
-          ? userData.licenseExpiry.toDate()
-          : new Date(userData.licenseExpiry)
-
-        // ❌ INVALID DATE
-        if (isNaN(expiryDate)) {
-          console.log("INVALID DATE:", userData.licenseExpiry)
-          return
-        }
-
-        expiryDate.setHours(0,0,0,0)
-
-        console.log(`USER: ${userData.name || userData.email}`)
-        console.log(`EXPIRY DATE: ${expiryDate.toDateString()}`)
-        console.log(`TODAY: ${today.toDateString()}`)
-        console.log(`IS EXPIRED: ${expiryDate < today}`)
-
-        // ✅ CHECK EXPIRED - EXPIRY < TODAY
-        if (expiryDate < today) {
-          expiredCount++
-          console.log("✅ EXPIRED:", userData.name || userData.email)
-        } else {
-          activeCount++
-          console.log("✅ ACTIVE:", userData.name || userData.email)
-        }
-
-      } else {
-        // WALANG EXPIRY → ACTIVE
-        activeCount++
-        console.log("✅ ACTIVE (NO EXPIRY):", userData.name || userData.email)
-      }
-    })
-
-    console.log("FINAL COUNT:", { activeCount, expiredCount })
-
-    stats.value.activeWardens = activeCount
-    stats.value.expiredWardens = expiredCount
-    stats.value.islandsProtected = 7641
-
-   } catch (err) {
-    console.error("ERROR FETCHING STATS:", err)
-
-    stats.value = {
-      islandsProtected: 7641,
+    const stats = ref({
+      islandsProtected: 0,
       activeWardens: 0,
       expiredWardens: 0
+    })
+
+    const router = useRouter()
+
+    const fetchStats = async () => {
+      try {
+        const usersRef = collection(db, "users")
+        const usersSnapshot = await getDocs(usersRef)
+
+        let activeCount = 0
+        let expiredCount = 0
+
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        usersSnapshot.forEach((docSnap) => {
+          const userData = docSnap.data()
+          let expiryDate = null
+
+          if (userData.licenseExpiry) {
+            expiryDate = userData.licenseExpiry?.toDate
+              ? userData.licenseExpiry.toDate()
+              : new Date(userData.licenseExpiry)
+
+            if (isNaN(expiryDate)) return
+
+            expiryDate.setHours(0, 0, 0, 0)
+
+            if (expiryDate < today) {
+              expiredCount++
+            } else {
+              activeCount++
+            }
+          } else {
+            activeCount++
+          }
+        })
+
+        stats.value.activeWardens = activeCount
+        stats.value.expiredWardens = expiredCount
+        stats.value.islandsProtected = 7641
+      } catch (err) {
+        console.error("ERROR FETCHING STATS:", err)
+        stats.value = { islandsProtected: 7641, activeWardens: 0, expiredWardens: 0 }
+      }
     }
+
+    onMounted(() => { fetchStats() })
+
+    const getPasswordStrength = () => {
+      if (!password.value) return ''
+      const length = password.value.length
+      if (length < 6) return 'weak'
+      if (length < 10) return 'medium'
+      if (length < 14) return 'strong'
+      return 'very-strong'
+    }
+
+    const loginUser = async () => {
+      error.value = ""
+      isLoading.value = true
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+        const user = userCredential.user
+        const docRef = doc(db, "users", user.uid)
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data()
+          const session = { uid: user.uid, email: user.email, role: userData.role }
+
+          if (remember.value) {
+            localStorage.setItem("user", JSON.stringify(session))
+          } else {
+            sessionStorage.setItem("user", JSON.stringify(session))
+          }
+
+          if (userData.role === "admin") {
+            router.push("/admin-dashboard")
+          } else if (userData.role === "user") {
+            router.push("/user-dashboard")
+          } else {
+            error.value = "Access Denied. Unknown role."
+          }
+        } else {
+          error.value = "User record not found in database."
+        }
+      } catch (err) {
+        if (err.code === "auth/user-not-found") error.value = "User not found."
+        else if (err.code === "auth/wrong-password") error.value = "Wrong password."
+        else if (err.code === "auth/invalid-email") error.value = "Invalid email format."
+        else error.value = err.message
+      } finally {
+        isLoading.value = false
+      }
+    }
+
+    return { email, password, loginUser, error, showPassword, remember, isLoading, getPasswordStrength, stats }
   }
-}
-
-// LOAD STATS
-onMounted(() => {
-  fetchStats()
-})
-
-// PASSWORD STRENGTH
-const getPasswordStrength = () => {
-  if (!password.value) return ''
-  const length = password.value.length
-  if (length < 6) return 'weak'
-  if (length < 10) return 'medium'
-  if (length < 14) return 'strong'
-  return 'very-strong'
-}
-
-// LOGIN FUNCTION
-const loginUser = async () => {
-
-error.value = ""
-isLoading.value = true
-
-try{
-
-const userCredential = await signInWithEmailAndPassword(
-auth,
-email.value,
-password.value
-)
-
-const user = userCredential.user
-
-const docRef = doc(db,"users",user.uid)
-const docSnap = await getDoc(docRef)
-
-if(docSnap.exists()){
-
-const userData = docSnap.data()
-
-const session = {
-uid: user.uid,
-email: user.email,
-role: userData.role
-}
-
-if(remember.value){
-localStorage.setItem("user", JSON.stringify(session))
-}else{
-sessionStorage.setItem("user", JSON.stringify(session))
-}
-
-if(userData.role === "admin"){
-router.push("/admin-dashboard")
-}
-else if(userData.role === "user"){
-router.push("/user-dashboard")
-}
-else{
-error.value = "Access Denied. Unknown role."
-}
-
-}else{
-error.value = "User record not found in database."
-}
-
-}catch(err){
-
-if(err.code === "auth/user-not-found"){
-error.value = "User not found."
-}
-else if(err.code === "auth/wrong-password"){
-error.value = "Wrong password."
-}
-else if(err.code === "auth/invalid-email"){
-error.value = "Invalid email format."
-}
-else{
-error.value = err.message
-}
-
-} finally{
-isLoading.value = false
-}
-
-}
-
-return{
-email,
-password,
-loginUser,
-error,
-showPassword,
-remember,
-isLoading,
-getPasswordStrength,
-stats
-}
-
-}
-
 }
 </script>
 
 <style scoped>
-/* Modern Professional Color Palette */
+/* ============================
+   CSS VARIABLES
+   ============================ */
 :root {
   --primary-blue: #1e40af;
   --primary-light: #3b82f6;
@@ -539,21 +420,24 @@ stats
   --success-green: #22c55e;
 }
 
-/* PAGE */
+/* ============================
+   PAGE LAYOUT
+   ============================ */
 .login-page {
-  height: 90vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--neutral-50), var(--neutral-100));
+  background: linear-gradient(135deg, rgb(222, 229, 255), rgba(72, 219, 202, 0.05));
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  padding: 20px;
+  padding: 16px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgb(222, 229, 255), rgba(72, 219, 202, 0.05));
 }
 
-/* ANIMATED BACKGROUND */
+/* ============================
+   ANIMATED BACKGROUND
+   ============================ */
 .background-decoration {
   position: absolute;
   inset: 0;
@@ -561,149 +445,53 @@ stats
   z-index: 0;
 }
 
-.floating-shapes {
-  position: absolute;
-  inset: 0;
-}
+.floating-shapes { position: absolute; inset: 0; }
 
 .shape {
   position: absolute;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(20, 184, 166, 0.05));
-  backdrop-filter: blur(10px);
   animation: float 20s infinite ease-in-out;
 }
 
-.shape-1 {
-  width: 120px;
-  height: 120px;
-  top: 10%;
-  left: 15%;
-  animation-delay: 0s;
-  animation-duration: 25s;
-}
-
-.shape-2 {
-  width: 80px;
-  height: 80px;
-  top: 20%;
-  right: 20%;
-  animation-delay: 3s;
-  animation-duration: 20s;
-}
-
-.shape-3 {
-  width: 100px;
-  height: 100px;
-  bottom: 30%;
-  left: 10%;
-  animation-delay: 5s;
-  animation-duration: 22s;
-}
-
-.shape-4 {
-  width: 60px;
-  height: 60px;
-  top: 60%;
-  right: 15%;
-  animation-delay: 7s;
-  animation-duration: 18s;
-}
-
-.shape-5 {
-  width: 90px;
-  height: 90px;
-  bottom: 20%;
-  right: 30%;
-  animation-delay: 2s;
-  animation-duration: 24s;
-}
-
-.shape-6 {
-  width: 70px;
-  height: 70px;
-  top: 40%;
-  left: 25%;
-  animation-delay: 4s;
-  animation-duration: 21s;
-}
+.shape-1 { width: 120px; height: 120px; top: 10%; left: 15%; animation-duration: 25s; }
+.shape-2 { width: 80px; height: 80px; top: 20%; right: 20%; animation-delay: 3s; animation-duration: 20s; }
+.shape-3 { width: 100px; height: 100px; bottom: 30%; left: 10%; animation-delay: 5s; animation-duration: 22s; }
+.shape-4 { width: 60px; height: 60px; top: 60%; right: 15%; animation-delay: 7s; animation-duration: 18s; }
+.shape-5 { width: 90px; height: 90px; bottom: 20%; right: 30%; animation-delay: 2s; animation-duration: 24s; }
+.shape-6 { width: 70px; height: 70px; top: 40%; left: 25%; animation-delay: 4s; animation-duration: 21s; }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.7;
-  }
-  25% {
-    transform: translateY(-20px) rotate(90deg);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(10px) rotate(180deg);
-    opacity: 0.5;
-  }
-  75% {
-    transform: translateY(-15px) rotate(270deg);
-    opacity: 0.8;
-  }
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  25% { transform: translateY(-20px) rotate(90deg); opacity: 0.9; }
+  50% { transform: translateY(10px) rotate(180deg); opacity: 0.5; }
+  75% { transform: translateY(-15px) rotate(270deg); opacity: 0.8; }
 }
 
-.gradient-orbs {
-  position: absolute;
-  inset: 0;
-}
+.gradient-orbs { position: absolute; inset: 0; }
 
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(40px);
-  animation: pulse 4s infinite ease-in-out;
+  animation: pulse-orb 4s infinite ease-in-out;
 }
 
-.orb-1 {
-  width: 300px;
-  height: 300px;
-  top: -100px;
-  left: -100px;
-  background: radial-gradient(circle, rgba(30, 64, 175, 0.3), transparent);
-  animation-delay: 0s;
+.orb-1 { width: 300px; height: 300px; top: -100px; left: -100px; background: radial-gradient(circle, rgba(30, 64, 175, 0.3), transparent); }
+.orb-2 { width: 250px; height: 250px; bottom: -100px; right: -100px; background: radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent); animation-delay: 2s; }
+.orb-3 { width: 200px; height: 200px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent); animation-delay: 1s; }
+
+@keyframes pulse-orb {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
-.orb-2 {
-  width: 250px;
-  height: 250px;
-  bottom: -100px;
-  right: -100px;
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent);
-  animation-delay: 2s;
-}
-
-.orb-3 {
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent);
-  animation-delay: 1s;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
-}
-
-/* CONTAINER */
+/* ============================
+   MAIN CONTAINER
+   ============================ */
 .login-container {
   width: 100%;
   max-width: 1200px;
-  height: auto;
-  max-height: 90vh;
   display: flex;
   border-radius: 24px;
   overflow: hidden;
@@ -712,38 +500,39 @@ stats
   border: 1px solid var(--neutral-200);
   position: relative;
   z-index: 10;
+  /* Let height be driven by content */
+  min-height: 0;
 }
 
-/* LEFT PANEL */
+/* ============================
+   LEFT PANEL
+   ============================ */
 .login-left {
   width: 50%;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--white);
+  /* Allow scrolling on very small screens */
+  overflow-y: auto;
 }
 
-/* AUTH CARD */
 .auth-card {
   width: 100%;
-  max-width: 420px;
-  padding: 48px 40px;
+  max-width: 440px;
+  padding: clamp(24px, 5vw, 48px) clamp(20px, 4vw, 40px);
   text-align: center;
-  background: var(--white);
-  border-radius: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* LOGO SECTION */
-.logo-section {
-  margin-bottom: 40px;
-}
+/* ============================
+   LOGO
+   ============================ */
+.logo-section { margin-bottom: clamp(20px, 4vh, 40px); }
 
 .logo-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .logo {
@@ -753,22 +542,18 @@ stats
 }
 
 .logo-icon {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--primary-blue);
   animation: logoFloat 3s ease-in-out infinite;
 }
 
 @keyframes logoFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 .logo h1 {
-  font-size: 36px;
+  font-size: clamp(26px, 4vw, 36px);
   font-weight: 800;
   color: var(--primary-blue);
   margin: 0 0 6px 0;
@@ -780,28 +565,28 @@ stats
 }
 
 .logo p {
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 14px);
   color: var(--neutral-600);
   margin: 0;
   font-weight: 500;
 }
 
-/* WELCOME SECTION */
-.welcome-section {
-  margin-bottom: 40px;
-}
+/* ============================
+   WELCOME SECTION
+   ============================ */
+.welcome-section { margin-bottom: clamp(20px, 4vh, 40px); }
 
 .welcome-section h2 {
-  font-size: 28px;
+  font-size: clamp(20px, 3vw, 28px);
   font-weight: 700;
   color: var(--neutral-800);
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
 
 .subtitle {
-  font-size: 15px;
+  font-size: clamp(13px, 1.5vw, 15px);
   color: var(--neutral-500);
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
   line-height: 1.5;
 }
 
@@ -809,7 +594,7 @@ stats
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 7px 14px;
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1));
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 20px;
@@ -818,15 +603,12 @@ stats
   font-weight: 600;
 }
 
-/* FORM STYLES */
-.login-form {
-  text-align: left;
-  
-}
+/* ============================
+   FORM
+   ============================ */
+.login-form { text-align: left; }
 
-.form-group {
-  margin-bottom: 24px;
-}
+.form-group { margin-bottom: clamp(16px, 3vh, 24px); }
 
 .form-label {
   display: flex;
@@ -849,45 +631,55 @@ stats
   font-weight: 700;
 }
 
-.input-wrapper {
-  position: relative;
+.input-wrapper { position: relative; }
+
+/* Left icon inside input */
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-400);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  z-index: 1;
 }
 
 .form-input {
   width: 100%;
-  padding: 14px 16px 14px 48px;
+  padding: 13px 44px 13px 44px;
   border: 2px solid var(--neutral-200);
   border-radius: 12px;
-  font-size: 15px;
+  font-size: clamp(14px, 1.5vw, 15px);
   color: var(--neutral-800);
   background: var(--white);
   transition: all 0.3s ease;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
 
-.form-input::placeholder {
-  color: var(--neutral-400);
-}
+.form-input::placeholder { color: var(--neutral-400); }
 
 .input-status {
   position: absolute;
-  right: 16px;
+  right: 44px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .password-strength {
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   border-radius: 2px;
   overflow: hidden;
   background: var(--neutral-200);
@@ -899,29 +691,14 @@ stats
   transition: all 0.3s ease;
 }
 
-.strength-bar.weak {
-  width: 25%;
-  background: var(--error-red);
-}
-
-.strength-bar.medium {
-  width: 50%;
-  background: var(--warning-amber);
-}
-
-.strength-bar.strong {
-  width: 75%;
-  background: var(--primary-blue);
-}
-
-.strength-bar.very-strong {
-  width: 100%;
-  background: var(--success-green);
-}
+.strength-bar.weak { width: 25%; background: var(--error-red); }
+.strength-bar.medium { width: 50%; background: var(--warning-amber); }
+.strength-bar.strong { width: 75%; background: var(--primary-blue); }
+.strength-bar.very-strong { width: 100%; background: var(--success-green); }
 
 .password-toggle {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -934,6 +711,9 @@ stats
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Ensure minimum tap target */
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .password-toggle:hover {
@@ -941,55 +721,14 @@ stats
   background: var(--neutral-100);
 }
 
-/* FORM OPTIONS */
+/* ============================
+   FORM OPTIONS
+   ============================ */
 .form-options {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 32px;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--neutral-600);
-  font-weight: 500;
-}
-
-.checkbox {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.checkmark {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--neutral-300);
-  border-radius: 6px;
-  position: relative;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.checkbox:checked ~ .checkmark {
-  background: var(--primary-blue);
-  border-color: var(--primary-blue);
-}
-
-.checkbox:checked ~ .checkmark::after {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  margin-bottom: clamp(20px, 3vh, 32px);
 }
 
 .forgot-link {
@@ -1005,16 +744,18 @@ stats
   text-decoration: underline;
 }
 
-/* ERROR MESSAGE */
+/* ============================
+   ERROR MESSAGE
+   ============================ */
 .error-message {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 16px;
+  padding: 14px;
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   color: var(--error-red);
   font-size: 14px;
   animation: slideDown 0.3s ease;
@@ -1022,24 +763,13 @@ stats
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.error-icon {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
+.error-icon { flex-shrink: 0; margin-top: 2px; }
 
-.error-content {
-  flex: 1;
-}
+.error-content { flex: 1; min-width: 0; }
 
 .error-content strong {
   display: block;
@@ -1049,56 +779,57 @@ stats
 
 .error-text {
   line-height: 1.4;
+  word-break: break-word;
 }
 
 .error-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
   color: var(--error-red);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
-  transition: background 0.2s ease;
+  flex-shrink: 0;
 }
 
-.error-close:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
+.error-close:hover { background: rgba(239, 68, 68, 0.1); }
 
-/* LOGIN BUTTON */
+/* ============================
+   LOGIN BUTTON
+   ============================ */
 .login-btn {
   width: 100%;
-  padding: 16px 20px;
+  padding: 15px 20px;
   background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
   color: var(--white);
   border: none;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 32px;
+  margin-bottom: clamp(20px, 3vh, 32px);
   position: relative;
   overflow: hidden;
+  min-height: 50px;
 }
 
 .login-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .login-btn:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .login-btn:disabled {
@@ -1107,21 +838,13 @@ stats
   transform: none;
 }
 
-.btn-icon svg {
-  transition: transform 0.2s ease;
-}
-
-.login-btn:hover:not(:disabled) .btn-icon svg {
-  transform: translateX(3px);
-}
+.btn-icon svg { transition: transform 0.2s ease; }
+.login-btn:hover:not(:disabled) .btn-icon svg { transform: translateX(3px); }
 
 .btn-loading {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
+  gap: 10px;
 }
 
 .spinner {
@@ -1131,6 +854,7 @@ stats
   border-top: 2px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  flex-shrink: 0;
 }
 
 @keyframes spin {
@@ -1138,12 +862,14 @@ stats
   100% { transform: rotate(360deg); }
 }
 
-/* CREATE ACCOUNT */
+/* ============================
+   CREATE ACCOUNT + LINKS
+   ============================ */
 .create-account {
   text-align: center;
   font-size: 14px;
   color: var(--neutral-600);
-  margin-bottom: 24px;
+  margin-bottom: clamp(16px, 2vh, 24px);
 }
 
 .create-link {
@@ -1159,13 +885,13 @@ stats
   text-decoration: underline;
 }
 
-/* ADDITIONAL LINKS */
 .additional-links {
   display: flex;
   justify-content: center;
   gap: 24px;
-  padding-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid var(--neutral-200);
+  flex-wrap: wrap;
 }
 
 .help-link, .policy-link {
@@ -1176,18 +902,21 @@ stats
   text-decoration: none;
   font-size: 13px;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
-.help-link:hover, .policy-link:hover {
-  color: var(--primary-blue);
-}
+.help-link:hover, .policy-link:hover { color: var(--primary-blue); }
 
-/* RIGHT PANEL */
+/* ============================
+   RIGHT PANEL
+   ============================ */
 .login-right {
   width: 50%;
   position: relative;
   overflow: hidden;
   background: var(--neutral-900);
+  /* Minimum height so it looks decent on tablet */
+  min-height: 400px;
 }
 
 .hero-image {
@@ -1195,6 +924,8 @@ stats
   height: 100%;
   object-fit: cover;
   opacity: 0.7;
+  position: absolute;
+  inset: 0;
 }
 
 .image-overlay {
@@ -1211,66 +942,49 @@ stats
   align-items: center;
   justify-content: center;
   z-index: 2;
-  padding: 48px;
+  padding: clamp(24px, 4vw, 48px);
+  overflow-y: auto;
 }
 
 .system-info {
   text-align: center;
   color: var(--white);
   max-width: 500px;
+  width: 100%;
 }
 
 .system-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: clamp(12px, 2vh, 20px);
 }
 
 .system-header h2 {
-  font-size: 32px;
+  font-size: clamp(22px, 3vw, 32px);
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
 }
 
-.live-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: #10b981;
-  font-weight: 600;
-}
-
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: #10b981;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-.system-info p {
-  font-size: 16px;
+.system-info > p {
+  font-size: clamp(13px, 1.5vw, 16px);
   line-height: 1.6;
-  margin: 0 0 40px 0;
+  margin: 0 0 clamp(20px, 3vh, 40px) 0;
   opacity: 0.9;
 }
 
-/* STATS SECTION */
+/* ============================
+   STATS
+   ============================ */
 .stats-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: clamp(8px, 1.5vw, 16px);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px;
+  padding: clamp(12px, 2vw, 20px) clamp(8px, 1.5vw, 16px);
   background: rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   backdrop-filter: blur(10px);
@@ -1284,234 +998,181 @@ stats
 }
 
 .stat-icon {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: var(--accent-emerald);
 }
 
 .stat-number {
   display: block;
-  font-size: 24px;
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 700;
   color: var(--accent-emerald);
   margin-bottom: 4px;
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: clamp(10px, 1vw, 12px);
   opacity: 0.8;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-/* FEATURES */
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.feature-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.feature-icon {
-  font-size: 24px;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  flex-shrink: 0;
-}
-
-.feature-content {
-  text-align: left;
-}
-
-.feature-content strong {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.feature-content span {
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-/* SYSTEM STATUS */
-.system-status {
-  text-align: center;
-}
-
-.system-status h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 16px 0;
-  color: var(--accent-emerald);
-}
-
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.status-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 12px;
-}
-
-.status-label {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.status-value {
-  font-weight: 600;
-}
-
-.status-value.optimal {
-  color: #10b981;
-}
-
-.status-value.healthy {
-  color: var(--accent-emerald);
-}
-
-.status-value.fast {
-  color: var(--primary-light);
-}
-
-.status-value.uptime {
-  color: #8b5cf6;
-}
-
-/* RESPONSIVE DESIGN */
+/* ============================
+   RESPONSIVE: TABLET (≤1024px)
+   ============================ */
 @media (max-width: 1024px) {
+  .login-page {
+    align-items: flex-start;
+    padding: 20px 16px;
+    min-height: 100vh;
+  }
+
   .login-container {
     flex-direction: column;
-    max-height: none;
-    max-width: 500px;
-    
+    max-width: 560px;
+    margin: auto;
+    border-radius: 20px;
   }
-  
+
   .login-left,
   .login-right {
     width: 100%;
   }
-  
+
   .login-left {
-    min-height: auto;
+    order: 1;
   }
-  
+
   .login-right {
-    min-height: 400px;
+    order: 2;
+    min-height: 320px;
+    /* Fixed height so image panel doesn't grow infinitely */
+    height: 320px;
   }
-  
+
+  /* hero-image needs absolute to fill fixed-height panel */
+  .hero-image {
+    position: absolute;
+  }
+
   .auth-card {
-    padding: 32px 24px;
+    padding: 32px 28px;
   }
-  
-  .content-overlay {
-    padding: 32px 24px;
-  }
-  
-  .system-header {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-  
+
   .stats-section {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .features {
-    gap: 12px;
-  }
-  
-  .status-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+/* ============================
+   RESPONSIVE: MOBILE (≤640px)
+   ============================ */
 @media (max-width: 640px) {
   .login-page {
-    padding: 16px;
-    
+    padding: 12px;
   }
-  
+
+  .login-container {
+    border-radius: 16px;
+    max-width: 100%;
+  }
+
   .auth-card {
-    padding: 24px 20px;
+    padding: 24px 18px;
   }
-  
-  .logo h1 {
-    font-size: 28px;
+
+  /* Hide floating shapes on small screens for perf */
+  .floating-shapes,
+  .gradient-orbs {
+    display: none;
   }
-  
-  .welcome-section h2 {
-    font-size: 22px;
+
+  .logo-icon svg {
+    width: 40px;
+    height: 40px;
   }
-  
-  .form-options {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+
+  .logo h1 { font-size: 28px; }
+  .welcome-section h2 { font-size: 20px; }
+
+  .form-input {
+    font-size: 16px; /* prevent iOS zoom */
+    padding: 13px 44px 13px 44px;
   }
-  
-  .additional-links {
-    flex-direction: column;
-    gap: 12px;
+
+  .login-right {
+    height: 260px;
+    min-height: 260px;
   }
-  
-  .system-header h2 {
-    font-size: 24px;
-  }
-  
+
   .content-overlay {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
-  
-  .features {
+
+  .system-header h2 { font-size: 20px; }
+  .system-info > p { font-size: 13px; margin-bottom: 16px; }
+
+  /* Stack stats 1-column on very narrow screens */
+  .stats-section {
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
-  
-  .feature-item {
-    padding: 16px;
+
+  .stat-item {
+    padding: 12px 6px;
+    border-radius: 12px;
+  }
+
+  .stat-icon svg { width: 18px; height: 18px; }
+  .stat-number { font-size: 16px; }
+  .stat-label { font-size: 9px; }
+
+  .additional-links {
+    gap: 16px;
+  }
+
+  .security-badge {
+    font-size: 11px;
+    padding: 6px 12px;
   }
 }
 
-/* ACCESSIBILITY */
+/* ============================
+   RESPONSIVE: VERY SMALL (≤380px)
+   ============================ */
+@media (max-width: 380px) {
+  .auth-card { padding: 20px 14px; }
+
+  .stats-section { grid-template-columns: 1fr; gap: 8px; }
+
+  .stat-item { flex-direction: row; gap: 12px; padding: 12px 16px; }
+  .stat-icon { margin-bottom: 0; }
+  .stat-content { text-align: left; }
+
+  .login-right { height: 220px; min-height: 220px; }
+}
+
+/* ============================
+   ACCESSIBILITY
+   ============================ */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ensure tap targets are large enough */
+@media (hover: none) {
+  .password-toggle,
+  .forgot-link,
+  .create-link,
+  .help-link,
+  .policy-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 }
 </style>
