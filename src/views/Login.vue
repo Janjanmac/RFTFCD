@@ -215,7 +215,7 @@ remember
 
 .login-page{
 
-  height:98vh;
+  height:80vh;
   display:flex;
   justify-content:center;
   align-items:center;
