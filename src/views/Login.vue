@@ -228,8 +228,8 @@ remember
 
 .login-container{
 
-  width:1400px; 
-  height:800px;
+  width:1000px; 
+  height:500px;
 
   display:flex;
 
