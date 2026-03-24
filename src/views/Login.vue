@@ -213,23 +213,21 @@ remember
 
 /* PAGE */
 
+/* PAGE */
 .login-page{
-
-  height:80vh;
+  height:100vh; /* FIX: full screen */
   display:flex;
   justify-content:center;
   align-items:center;
-
   background:linear-gradient(135deg,#7db0fc,#f4f7fb);
-
+  padding:20px;
 }
 
 /* CONTAINER */
-
 .login-container{
-
-  width:1000px; 
-  height:500px;
+  width:100%;
+  max-width:1100px; /* FIX: responsive */
+  height:650px; /* FIX: mas balanced */
 
   display:flex;
 
@@ -237,62 +235,54 @@ remember
   overflow:hidden;
 
   box-shadow:0 25px 50px rgba(0,0,0,0.2);
-
   background:white;
-
 }
 
 /* LEFT PANEL */
-
 .login-left{
-
   width:50%;
-  padding:50px;
+  padding:40px;
 
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
-
+  justify-content:center; /* FIX: center content */
 }
 
 /* HEADER LEFT */
 .header-left {
   text-align:center;
-  margin-top:0; /* top align */
 }
 
 .header-left h1{
-  font-size:80px;
+  font-size:50px; /* FIX: mas sakto */
   color:#0d5c63;
   margin:0;
 }
 
 .header-left p{
-  font-size:30px;
+  font-size:18px;
   color:#777;
   margin:0;
 }
 
 .header-left h2{
-  margin:10px 0 10px 0;
-  font-size:60px;
+  margin:10px 0;
+  font-size:35px;
 }
 
-/* Separate subheading under Welcome Back */
+/* SUBHEADING FIX */
 .subheading {
-  margin-top:100px;   /* adds space from Welcome Back! */
+  margin-top:20px; /* FIX: wag 100px */
+  text-align:center;
 }
 
 .subheading .sub{
-  font-size:30px;
+  font-size:16px;
   color:#777;
-  display:block;
 }
 
 /* INPUT */
-
 .input-group input{
-
   width:100%;
   padding:12px;
   margin-bottom:15px;
@@ -300,52 +290,39 @@ remember
   border-radius:8px;
   border:1px solid #ddd;
 
-  font-size:19px;
-
+  font-size:16px;
 }
 
 /* PASSWORD */
-
 .password-box{
-
   position:relative;
-
 }
 
 .toggle{
-
   position:absolute;
   right:10px;
   top:50%;
   transform:translateY(-50%);
-  font-size:17px;
+  font-size:14px;
   cursor:pointer;
   color:#555;
-
 }
 
 /* OPTIONS */
-
 .options{
-
   display:flex;
   justify-content:space-between;
-  font-size:19px;
-  margin-bottom:20px;
-
+  font-size:14px;
+  margin-bottom:15px;
 }
 
 .options a{
-
   text-decoration:none;
   color:#ff5252;
-
 }
 
 /* BUTTON */
-
 .login-btn{
-
   width:100%;
   padding:12px;
 
@@ -360,20 +337,15 @@ remember
 
   cursor:pointer;
   transition:.3s;
-  font-size:20px;
-
+  font-size:16px;
 }
 
 .login-btn:hover{
-
   background:#0b4a50;
-
 }
 
 /* CREATE */
-
 .create-btn{
-
   display:block;
   text-align:center;
 
@@ -386,93 +358,78 @@ remember
   color:#0d5c63;
 
   font-weight:bold;
-  font-size:24px;
-
+  font-size:16px;
 }
 
 /* RIGHT PANEL */
-
 .login-right{
-
   width:50%;
   position:relative;
   overflow:hidden;
-
 }
 
 /* IMAGE */
-
 .login-right img{
-
   width:100%;
   height:100%;
   object-fit:cover;
-
   animation:zoom 20s infinite alternate;
-
 }
 
 /* IMAGE OVERLAY */
-
 .image-overlay{
-
   position:absolute;
   inset:0;
   background:rgba(0,0,0,0.3);
-
   z-index:1;
-
 }
 
 /* SYSTEM TEXT */
-
 .system-info{
-
   position:absolute;
   bottom:40px;
   left:40px;
-
   color:white;
   z-index:2;
-
 }
 
 .system-info h2{
-
   margin:0;
-  font-size:35px;
-
+  font-size:28px;
 }
 
 .system-info p{
-
   margin:0;
-  font-size:20px;
-
+  font-size:16px;
 }
 
 /* ERROR */
-
 .error{
-
   color:red;
   margin-top:10px;
   font-size:13px;
-
 }
 
 /* ANIMATION */
-
 @keyframes zoom{
+  from{ transform:scale(1); }
+  to{ transform:scale(1.1); }
+}
 
-  from{
-    transform:scale(1);
+/* 🔥 RESPONSIVE FIX */
+@media (max-width: 900px){
+  .login-container{
+    flex-direction:column;
+    height:auto;
   }
 
-  to{
-    transform:scale(1.1);
+  .login-left, .login-right{
+    width:100%;
   }
 
+  .login-right{
+    height:200px;
+  }
 }
 
 </style>
