@@ -110,13 +110,23 @@ const router = createRouter({
 
 // Auth Guard
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('user')
+  const authRequired = to.meta?.requiresAuth
+  const loggedIn = sessionStorage.getItem('user')
 
-  if (!isLoggedIn && to.path !== '/') {
-    next('/')
-  } else {
-    next()
+  if (authRequired && !loggedIn) {
+    return next({ name: 'Login' })
   }
+
+  if (loggedIn) {
+    const userRole = JSON.parse(loggedIn).role
+
+    if (to.meta?.role && to.meta.role !== userRole) {
+      if (userRole === 'admin') return next({ name: 'AdminDashboard' })
+      if (userRole === 'user') return next({ name: 'UserDashboard' })
+    }
+  }
+
+  next()
 })
 
 export default router
