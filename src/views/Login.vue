@@ -639,4 +639,140 @@
     display: none;
   }
 }
+/* ============================
+   🔥 IMPROVED RESPONSIVE FIX
+   ============================ */
+
+/* TABLET */
+@media (max-width: 1024px) {
+
+  .login-container {
+    flex-direction: column;
+    max-width: 95%;
+  }
+
+  .login-left,
+  .login-right {
+    width: 100%;
+  }
+
+  .login-right {
+    min-height: 280px;
+  }
+
+  .auth-card {
+    padding: 30px 20px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .login-page {
+    padding: 10px;
+    min-height: 100vh;
+  }
+
+  .login-container {
+    border-radius: 16px;
+  }
+
+  .login-left {
+    padding: 20px 10px;
+  }
+
+  .auth-card {
+    padding: 25px 18px;
+    border-radius: 14px;
+  }
+
+  .logo h1 {
+    font-size: 24px;
+  }
+
+  .welcome-section h2 {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .form-input {
+    padding: 12px 40px;
+    font-size: 13px;
+  }
+
+  .login-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* 🔥 OPTIONAL (recommended): hide right side sa mobile */
+  .login-right {
+    display: none;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 480px) {
+
+  .auth-card {
+    padding: 20px 15px;
+  }
+
+  .logo p {
+    font-size: 12px;
+  }
+
+  .form-label {
+    font-size: 12px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+}
+
+/* ============================
+   🔥 UI POLISH (OPTIONAL PERO SOLID)
+   ============================ */
+
+/* smoother card */
+.auth-card {
+  transition: all 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-3px);
+}
+
+/* button upgrade */
+.login-btn {
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(30,64,175,0.25);
+}
+
+/* input focus better */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+}
+
+/* stats mobile fix */
+@media (max-width: 768px) {
+  .stats-section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+}
   </style>
