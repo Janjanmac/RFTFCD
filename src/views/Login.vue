@@ -210,12 +210,9 @@ remember
 </script>
 
 <style scoped>
-
-/* PAGE */
-
 /* PAGE */
 .login-page{
-  height:90vh; /* FIX: full screen */
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -225,11 +222,12 @@ remember
 
 /* CONTAINER */
 .login-container{
-  width:90%;
-  max-width:900px; /* FIX: responsive */
-  height:550px; /* FIX: mas balanced */
+  width:100%;
+  max-width:900px;
+  min-height:550px;
 
   display:flex;
+  flex-direction:row;
 
   border-radius:18px;
   overflow:hidden;
@@ -245,39 +243,37 @@ remember
 
   display:flex;
   flex-direction:column;
-  justify-content:center; /* FIX: center content */
+  justify-content:center;
 }
 
-/* HEADER LEFT */
+/* HEADER */
 .header-left {
   text-align:center;
 }
 
 .header-left h1{
-  font-size:50px; /* FIX: mas sakto */
+  font-size:40px;
   color:#0d5c63;
   margin:0;
 }
 
 .header-left p{
-  font-size:18px;
+  font-size:16px;
   color:#777;
-  margin:0;
 }
 
 .header-left h2{
   margin:10px 0;
-  font-size:35px;
+  font-size:28px;
 }
 
-/* SUBHEADING FIX */
+/* SUB */
 .subheading {
-  margin-top:20px; /* FIX: wag 100px */
-  text-align:center;
+  margin-top:10px;
 }
 
 .subheading .sub{
-  font-size:16px;
+  font-size:14px;
   color:#777;
 }
 
@@ -290,7 +286,7 @@ remember
   border-radius:8px;
   border:1px solid #ddd;
 
-  font-size:16px;
+  font-size:14px;
 }
 
 /* PASSWORD */
@@ -303,7 +299,7 @@ remember
   right:10px;
   top:50%;
   transform:translateY(-50%);
-  font-size:14px;
+  font-size:13px;
   cursor:pointer;
   color:#555;
 }
@@ -312,13 +308,8 @@ remember
 .options{
   display:flex;
   justify-content:space-between;
-  font-size:14px;
+  font-size:13px;
   margin-bottom:15px;
-}
-
-.options a{
-  text-decoration:none;
-  color:#ff5252;
 }
 
 /* BUTTON */
@@ -337,7 +328,7 @@ remember
 
   cursor:pointer;
   transition:.3s;
-  font-size:16px;
+  font-size:14px;
 }
 
 .login-btn:hover{
@@ -358,7 +349,7 @@ remember
   color:#0d5c63;
 
   font-weight:bold;
-  font-size:16px;
+  font-size:14px;
 }
 
 /* RIGHT PANEL */
@@ -368,7 +359,6 @@ remember
   overflow:hidden;
 }
 
-/* IMAGE */
 .login-right img{
   width:100%;
   height:100%;
@@ -376,7 +366,6 @@ remember
   animation:zoom 20s infinite alternate;
 }
 
-/* IMAGE OVERLAY */
 .image-overlay{
   position:absolute;
   inset:0;
@@ -384,30 +373,27 @@ remember
   z-index:1;
 }
 
-/* SYSTEM TEXT */
 .system-info{
   position:absolute;
-  bottom:40px;
-  left:40px;
+  bottom:20px;
+  left:20px;
   color:white;
   z-index:2;
 }
 
 .system-info h2{
-  margin:0;
-  font-size:28px;
+  font-size:22px;
 }
 
 .system-info p{
-  margin:0;
-  font-size:16px;
+  font-size:14px;
 }
 
 /* ERROR */
 .error{
   color:red;
   margin-top:10px;
-  font-size:13px;
+  font-size:12px;
 }
 
 /* ANIMATION */
@@ -416,20 +402,67 @@ remember
   to{ transform:scale(1.1); }
 }
 
-/* 🔥 RESPONSIVE FIX */
+/* 🔥 TABLET */
 @media (max-width: 900px){
   .login-container{
     flex-direction:column;
-    height:auto;
   }
 
-  .login-left, .login-right{
+  .login-left,
+  .login-right{
     width:100%;
   }
 
   .login-right{
-    height:200px;
+    height:220px;
   }
+}
+
+/* 🔥 MOBILE */
+@media (max-width: 500px){
+
+  .login-left{
+    padding:20px;
+  }
+
+  .header-left h1{
+    font-size:28px;
+  }
+
+  .header-left h2{
+    font-size:22px;
+  }
+
+  .input-group input{
+    font-size:13px;
+    padding:10px;
+  }
+
+  .login-btn,
+  .create-btn{
+    font-size:13px;
+    padding:10px;
+  }
+
+  .options{
+    flex-direction:column;
+    gap:5px;
+    align-items:flex-start;
+  }
+
+  .system-info{
+    bottom:10px;
+    left:10px;
+  }
+
+  .system-info h2{
+    font-size:18px;
+  }
+
+  .system-info p{
+    font-size:12px;
+  }
+
 }
 
 </style>
