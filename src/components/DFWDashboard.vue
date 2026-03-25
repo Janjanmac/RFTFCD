@@ -346,6 +346,7 @@ function resetForm(){
 <style scoped>
 .page-container{
 display:flex;
+min-height:90vh;
 font-family:Arial, Helvetica, sans-serif;
 }
 
