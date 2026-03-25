@@ -1,27 +1,46 @@
 <template>
-  <div class="auth-container">
-    <h2>Register</h2>
+  <div class="auth-page">
+    <!-- Background Design -->
+    <div class="bg-overlay"></div>
 
-    <form @submit.prevent="registerUser">
-      <input v-model="email" type="email" placeholder="Email" required />
-      <input v-model="password" type="password" placeholder="Password" required />
-      <input v-model="confirmPassword" type="password" placeholder="Confirm Password" required />
+    <!-- Form Card -->
+    <div class="auth-container">
+      <h2>Create Account</h2>
+      <p class="subtitle">Sign up to get started 🚀</p>
 
-      <button type="submit">Register</button>
-    </form>
+      <form @submit.prevent="registerUser">
+        <div class="input-group">
+          <input v-model="email" type="email" required />
+          <label>Email</label>
+        </div>
 
-    <p>Already have an account?
-      <router-link to="/login">Login here</router-link>
-    </p>
+        <div class="input-group">
+          <input v-model="password" type="password" required />
+          <label>Password</label>
+        </div>
 
-    <p class="error" v-if="error">{{ error }}</p>
+        <div class="input-group">
+          <input v-model="confirmPassword" type="password" required />
+          <label>Confirm Password</label>
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+
+      <p class="switch">
+        Already have an account?
+        <router-link to="/login">Login here</router-link>
+      </p>
+
+      <p class="error" v-if="error">{{ error }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";   // ⭐ IMPORT AUTH
+import { auth } from "../firebase";
 
 export default {
   setup() {
@@ -39,49 +58,153 @@ export default {
       }
 
       try {
-        await createUserWithEmailAndPassword(auth, email.value, password.value);
+        await createUserWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
 
         alert("Registration Successful!");
-
-        // pwede mo redirect sa login
         window.location.href = "/login";
-
       } catch (err) {
         error.value = err.message;
       }
     };
 
     return { email, password, confirmPassword, registerUser, error };
-  }
+  },
 };
 </script>
 
 <style scoped>
+/* PAGE BACKGROUND */
+.auth-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  position: relative;
+  padding: 20px;
+}
+
+/* GLASS EFFECT OVERLAY */
+.bg-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+/* FORM CARD */
 .auth-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   max-width: 400px;
-  margin: 50px auto;
   padding: 30px;
-  background: #f2f2f2;
-  border-radius: 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  color: white;
   text-align: center;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+/* TITLE */
+.auth-container h2 {
+  margin-bottom: 5px;
 }
 
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+/* INPUT GROUP */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 14px;
+}
+
+/* FLOATING LABEL */
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #ddd;
+  font-size: 13px;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+/* FLOAT EFFECT */
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: -8px;
+  left: 10px;
+  font-size: 11px;
+  color: #fff;
+}
+
+/* BUTTON */
 button {
   width: 100%;
-  padding: 10px;
-  background: #007bff;
-  color: white;
+  padding: 12px;
   border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #333;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
 
+button:hover {
+  background: #f1f1f1;
+  transform: scale(1.03);
+}
+
+/* SWITCH TEXT */
+.switch {
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.switch a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* ERROR */
 .error {
-  color: red;
+  margin-top: 10px;
+  color: #ff4d4d;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 20px;
+  }
+
+  .auth-container h2 {
+    font-size: 20px;
+  }
 }
 </style>
