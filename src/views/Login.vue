@@ -215,7 +215,7 @@ remember
 
 /* PAGE */
 .login-page{
-  height:100vh; /* FIX: full screen */
+  height:90vh; /* FIX: full screen */
   display:flex;
   justify-content:center;
   align-items:center;
@@ -225,7 +225,7 @@ remember
 
 /* CONTAINER */
 .login-container{
-  width:100%;
+  width:90%;
   max-width:900px; /* FIX: responsive */
   height:550px; /* FIX: mas balanced */
 
