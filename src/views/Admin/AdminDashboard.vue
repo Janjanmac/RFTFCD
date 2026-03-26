@@ -101,7 +101,7 @@ export default {
       // Push route with query params
       this.$router.push({
         name: routeName,
-        query: {
+        params: {
           year: this.selectedYear,
           province: this.selectedProvince,
           municipality: this.selectedMunicipality
