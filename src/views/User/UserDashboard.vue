@@ -63,70 +63,155 @@
 
 <script>
 export default {
-  data() {
-    return {
-      years: ["2023","2024","2025","2026","2027","2028","2029","2030"],
-      provinces: ["Occidental Mindoro","Oriental Mindoro","Marinduque","Romblon","Palawan"],
-      municipalities: {
-        "Occidental Mindoro":["Mamburao","Sablayan","San Jose","Looc","Calintaan","Abra de Ilog","Lubang","Magsaysay","Paluan","Rizal","Sta. Cruz"],
-        "Oriental Mindoro":["Calapan City","Baco","San Teodoro","Puerto Galera","Naujan","Victoria","Pola","Socorro","Pinamalayan","Gloria","Bansud","Bongabong","Roxas","Mansalay","Bulalacao"],
-        "Marinduque":["Boac","Mogpog","Gasan","Torrijos","Buenavista","Santa Cruz"],
-        "Romblon":["Romblon","Odiongan","San Jose","Ferrol","Alcantara","Banton","Cajidiocan","Calatrava","Concepcion","Corcuera","Looc","Magdiwang","San Agustin","San Andres","San Fernando","Santa Fe","Santa Maria"],
-        "Palawan":["Puerto Princesa","El Nido","Coron","Aborlan","Agutaya","Araceli","Balabac","Bataraza","Brooke's Point","Busuanga","Cagayancillo","Culion","Cuyo","Dumaran","Kalayaan","Linapacan","Magsaysay","Narra","Quezon","Rizal","Roxas","San Vicente","Sofronio Española","Taytay"]
-      },
-      selectedYear: "",
-      selectedProvince: "",
-      selectedMunicipality: "",
-      filteredMunicipalities: []
-    }
-  },
-  mounted() {
+
+data(){
+return{
+
+years:[
+"2023",
+"2024",
+"2025",
+"2026",
+"2027",
+"2028",
+"2029",
+"2030"
+],
+
+provinces:[
+"Occidental Mindoro",
+"Oriental Mindoro",
+"Marinduque",
+"Romblon",
+"Palawan"
+],
+
+municipalities:{
+
+"Occidental Mindoro":[
+"Mamburao","Sablayan","San Jose","Looc","Calintaan",
+"Abra de Ilog","Lubang","Magsaysay","Paluan","Rizal","Sta. Cruz"
+],
+
+"Oriental Mindoro":[
+"Calapan City","Baco","San Teodoro","Puerto Galera",
+"Naujan","Victoria","Pola","Socorro","Pinamalayan",
+"Gloria","Bansud","Bongabong","Roxas","Mansalay","Bulalacao"
+],
+
+"Marinduque":[
+"Boac","Mogpog","Gasan","Torrijos","Buenavista","Santa Cruz"
+],
+
+"Romblon":[
+"Romblon","Odiongan","San Jose","Ferrol","Alcantara",
+"Banton","Cajidiocan","Calatrava","Concepcion","Corcuera",
+"Looc","Magdiwang","San Agustin","San Andres",
+"San Fernando","Santa Fe","Santa Maria"
+],
+
+"Palawan":[
+"Puerto Princesa","El Nido","Coron","Aborlan","Agutaya",
+"Araceli","Balabac","Bataraza","Brooke's Point",
+"Busuanga","Cagayancillo","Culion","Cuyo","Dumaran",
+"Kalayaan","Linapacan","Magsaysay","Narra","Quezon",
+"Rizal","Roxas","San Vicente","Sofronio Española","Taytay"
+]
+
+},
+
+selectedYear:"",
+selectedProvince:"",
+selectedMunicipality:"",
+filteredMunicipalities:[]
+
+}
+},
+
+mounted() {
+  // 🔒 BLOCK BACK BUTTON
+  window.history.pushState(null, null, window.location.href)
+  window.onpopstate = function () {
     window.history.pushState(null, null, window.location.href)
-    window.onpopstate = function () {
-      window.history.pushState(null, null, window.location.href)
-    }
-  },
-  methods: {
-    filterMunicipalities() {
-      if(this.selectedProvince){
-        this.filteredMunicipalities = this.municipalities[this.selectedProvince]
-        this.selectedMunicipality=""
-      } else {
-        this.filteredMunicipalities=[]
-      }
-    },
-    enterDashboard() {
-      if(!this.selectedYear || !this.selectedProvince || !this.selectedMunicipality){
-        alert("Please select Year, Province and Municipality")
-        return
-      }
-
-      let routeName = "UserDFWDashboard" // default
-      if(this.selectedYear !== "2023"){
-        routeName = `UserDFW${this.selectedYear}`
-      }
-
-      this.$router.push({
-        name: routeName,
-        query:{
-          year:this.selectedYear,
-          province:this.selectedProvince,
-          municipality:this.selectedMunicipality
-        }
-      })
-    }
   }
+},
+
+methods:{
+
+filterMunicipalities(){
+
+if(this.selectedProvince){
+
+this.filteredMunicipalities =
+this.municipalities[this.selectedProvince]
+
+this.selectedMunicipality=""
+
+}else{
+
+this.filteredMunicipalities=[]
+
+}
+
+},
+
+enterDashboard(){
+
+if(!this.selectedYear || !this.selectedProvince || !this.selectedMunicipality){
+
+alert("Please select Year, Province and Municipality")
+return
+
+}
+
+let routeName=""
+
+if(this.selectedYear==="2023"){
+routeName="UserDFWDashboard"
+}
+else if(this.selectedYear==="2024"){
+routeName="UserDFW2024"
+}
+else if(this.selectedYear==="2025"){
+routeName="UserDFW2025"
+}
+else if(this.selectedYear==="2026"){
+routeName="UserDFW2026"
+}
+else if(this.selectedYear==="2027"){
+routeName="UserDFW2027"
+}
+else if(this.selectedYear==="2028"){
+routeName="UserDFW2028"
+}
+else if(this.selectedYear==="2029"){
+routeName="UserDFW2029"
+}
+else if(this.selectedYear==="2030"){
+routeName="UserDFW2030"
+}
+
+this.$router.push({
+name:routeName,
+query:{
+year:this.selectedYear,
+province:this.selectedProvince,
+municipality:this.selectedMunicipality
+}
+})
+
+}
+
+}
+
 }
 </script>
 
 <style scoped>
 .page {
-  min-height: 90vh;
+  min-height: 90%;
   background: linear-gradient(135deg,#d8e7ff,#eff6ff);
   padding-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 /* HEADER */
@@ -137,13 +222,9 @@ export default {
 }
 
 .header-image {
-  width: 90%;
-  max-width: 600px;
-  height: auto;
+  width: 100%;
+  max-height: 220px;
   object-fit: contain;
-  margin: auto;
-  display: block;
-  padding: 10px 0;
 }
 
 /* TITLE */
@@ -154,9 +235,8 @@ export default {
 }
 
 .title-section h1 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
   font-weight: 900;
-  margin-bottom: 5px;
 }
 
 .title-section p {
@@ -168,9 +248,8 @@ export default {
 .dashboard {
   display: flex;
   justify-content: center;
-  width: 100%;
-  padding: 0 10px;
   margin-top: 25px;
+  padding: 0 10px;
 }
 
 /* CARD */
@@ -181,7 +260,6 @@ export default {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  box-sizing: border-box;
 }
 
 /* TEXT */
@@ -207,7 +285,6 @@ select {
   font-size: 0.95rem;
   border-radius: 6px;
   border: 1px solid #ccc;
-  box-sizing: border-box;
 }
 
 /* BUTTON */
@@ -235,7 +312,6 @@ button:disabled {
 @media (max-width: 768px) {
 
   .header-image {
-    max-width: 90%;
     max-height: 150px;
   }
 
@@ -248,12 +324,5 @@ button:disabled {
     padding: 10px;
   }
 
-  .title-section h1 {
-    font-size: clamp(1.2rem, 5vw, 1.8rem);
-  }
-
-  .title-section p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-  }
 }
 </style>
