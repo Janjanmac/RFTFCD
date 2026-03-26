@@ -143,7 +143,7 @@ const groupedData = computed(() => {
 .page.shifted { margin-left:250px; }
 
 /* HEADER */
-.top-header { display:flex; align-items:center; background:#114a86; color:white; padding:22px; border-radius:12px; position:relative; }
+.top-header { display:flex; align-items:center; background:#114a86; color:rgb(255, 255, 255); padding:22px; border-radius:12px; position:relative; }
 .header-title { position:absolute; left:50%; transform:translateX(-50%); font-size:40px; font-weight:700; }
 .hamburger-btn { font-size:26px; background:#083c3f; color:white; border:none; padding:10px 15px; cursor:pointer; border-radius:6px; }
 
@@ -157,6 +157,6 @@ const groupedData = computed(() => {
 .record-card th { background:#cfd8dc; padding:12px; }
 .record-card td { padding:10px; border-bottom:1px solid #ddd; }
 
-/* EMPTY MESSAGE */
+/* EMPTY */
 .empty { padding:15px; background:#fff3cd; border-radius:8px; margin-top:10px; font-size:20px; font-weight:bold; text-align:center; }
 </style>

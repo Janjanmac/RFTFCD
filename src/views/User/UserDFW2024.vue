@@ -138,35 +138,35 @@ const groupedData = computed(() => {
 </script>
 
 <style scoped>
-.page-container { display:flex; font-family:Arial, sans-serif; }
+.page-container { display:flex; font-family:Arial; }
 
 /* SIDEBAR */
-.sidebar { position:fixed; top:0; left:-250px; width:250px; height:100vh; background:white; padding:20px; transition:left .3s; z-index:10; }
+.sidebar { position:fixed; top:0; left:-250px; width:250px; height:100vh; background:white; padding:20px; transition:left .3s; }
 .sidebar.open { left:0; }
 .sidebar-title { font-size:22px; margin-bottom:20px; }
 .sidebar ul { list-style:none; padding:0; }
 .sidebar li { margin:15px 0; }
-.sidebar a { text-decoration:none; font-size:18px; color:black; }
+.sidebar a { text-decoration:none; font-size:20px; color:black; }
 
 /* PAGE */
 .page { flex:1; padding:35px; transition:margin-left .3s; }
 .page.shifted { margin-left:250px; }
 
 /* HEADER */
-.top-header { display:flex; align-items:center; background:#114a86; color:white; padding:20px; border-radius:12px; position:relative; }
-.header-title { position:absolute; left:50%; transform:translateX(-50%); font-size:32px; font-weight:700; text-align:center; }
+.top-header { display:flex; align-items:center; background:#114a86; color:rgb(255, 255, 255); padding:22px; border-radius:12px; position:relative; }
+.header-title { position:absolute; left:50%; transform:translateX(-50%); font-size:40px; font-weight:700; }
 .hamburger-btn { font-size:26px; background:#083c3f; color:white; border:none; padding:10px 15px; cursor:pointer; border-radius:6px; }
 
 /* RECORD CARDS */
-.card { background:white; padding:20px; margin-top:25px; border-radius:12px; box-shadow:0 6px 12px rgba(0,0,0,.12); }
-.province-title { margin-top:25px; background:#083c3f; color:white; padding:10px; font-size:28px; border-radius:6px; }
-.municipality-title { margin-bottom:15px; font-size:22px; }
+.card { background:white; padding:28px; margin-top:25px; border-radius:14px; box-shadow:0 8px 15px rgba(0,0,0,.12); }
+.province-title { margin-top:35px; background:#083c3f; color:white; padding:12px; font-size:32px; border-radius:8px; }
+.municipality-title { margin-bottom:18px; font-size:26px; }
 
 /* TABLE */
-.record-card table { width:100%; border-collapse:collapse; font-size:16px; }
-.record-card th { background:#cfd8dc; padding:10px; text-align:left; }
-.record-card td { padding:8px; border-bottom:1px solid #ddd; }
+.record-card table { width:100%; border-collapse:collapse; font-size:20px; }
+.record-card th { background:#cfd8dc; padding:12px; }
+.record-card td { padding:10px; border-bottom:1px solid #ddd; }
 
-/* EMPTY MESSAGE */
-.empty { padding:15px; background:#fff3cd; border-radius:8px; margin-top:10px; font-size:18px; font-weight:bold; text-align:center; }
+/* EMPTY */
+.empty { padding:15px; background:#fff3cd; border-radius:8px; margin-top:10px; font-size:20px; font-weight:bold; text-align:center; }
 </style>
