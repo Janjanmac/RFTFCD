@@ -193,7 +193,7 @@ routeName="UserDFW2030"
 
 this.$router.push({
 name:routeName,
-query:{
+params: {
 year:this.selectedYear,
 province:this.selectedProvince,
 municipality:this.selectedMunicipality
