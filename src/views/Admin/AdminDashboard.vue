@@ -114,73 +114,119 @@ export default {
 
 <style scoped>
 .page {
-  min-height: 98vh;
+  min-height: 90vh;
   background: linear-gradient(135deg,#d8e7ff,#eff6ff);
+  padding-bottom: 30px;
 }
+
+/* HEADER */
 .header {
   width: 100%;
   text-align: center;
   background: linear-gradient(135deg,#5c9bfa,#f4f7fb);
 }
+
 .header-image {
   width: 100%;
-  max-height: 290px;
+  max-height: 220px;
   object-fit: contain;
 }
+
+/* TITLE */
 .title-section {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 15px;
+  padding: 0 10px;
 }
+
 .title-section h1 {
-  font-size: 50px;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 900;
 }
+
 .title-section p {
-  font-size: 30px;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   color: #444;
 }
+
+/* DASHBOARD */
 .dashboard {
   display: flex;
   justify-content: center;
-  font-size: 20px;
-  margin-top: 40px;
+  margin-top: 25px;
+  padding: 0 10px;
 }
+
+/* CARD */
 .card {
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   background: white;
-  padding: 30px;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
+
+/* TEXT */
+.card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
 label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 0.95rem;
 }
+
+/* INPUT */
 select {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  margin-bottom: 15px;
-  font-size: 19px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
+/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
   border: none;
   background: #5ca5ff;
   color: white;
-  font-size: 25px;
+  font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
+  transition: 0.2s;
 }
+
 button:hover {
   background: #084a9a;
 }
+
 button:disabled {
   background: #aaa;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+
+  .header-image {
+    max-height: 150px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
 }
 </style>

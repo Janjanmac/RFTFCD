@@ -350,13 +350,13 @@ function resetForm(){
 }
 
 /* SIDEBAR */
-.sidebar{
+.sidebar{ 
   position:fixed;
   top:0;
   left:-260px;
   width:260px;
   height:100vh;
-  background:#ffffff;
+  background:#ffffff00;
   padding:20px;
   transition:left .3s;
   z-index:1000;

@@ -237,38 +237,203 @@ const groupedData = computed(() => {
 </script>
 
 <style scoped>
-.page-container{display:flex;font-family:Arial}
+.page-container{
+  display:flex;
+  font-family:Arial, Helvetica, sans-serif;
+}
 
-.sidebar{position:fixed;top:0;left:-250px;width:250px;height:100vh;background:white;padding:20px;transition:left .3s}
-.sidebar.open{left:0}
-.sidebar ul{list-style:none;padding:0}
-.sidebar li{margin:15px 0}
-.sidebar a{text-decoration:none;font-size:25px;color:black}
+/* SIDEBAR */
+.sidebar{ 
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:260px;
+  height:100vh;
+  background:#ffffff00;
+  padding:20px;
+  transition:left .3s;
+  z-index:1000;
+}
 
-.page{flex:1;padding:35px;transition:margin-left .3s}
-.page.shifted{margin-left:250px}
+.sidebar.open{ left:0; }
 
-.top-header{display:flex;align-items:center;background:#114a86;color:white;padding:22px;border-radius:12px;position:relative}
-.header-title{position:absolute;left:50%;transform:translateX(-50%);font-size:48px;font-weight:700}
-.hamburger-btn{font-size:26px;background:#083c3f;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer}
+.sidebar-title{ font-size:1.3rem; margin-bottom:15px; }
+.sidebar ul{ list-style:none; padding:0; }
+.sidebar li{ margin:10px 0; }
 
-.form-toggle{margin-top:20px}
-.toggle-btn{padding:14px 22px;font-size:20px;background:#114a86;color:white;border:none;border-radius:8px;cursor:pointer}
+.sidebar a{
+  text-decoration:none;
+  font-size:1.1rem;
+  color:black;
+}
 
-.card{background:white;padding:28px;margin-top:25px;border-radius:14px;box-shadow:0 8px 15px rgba(0,0,0,.12)}
-.form{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
-.form input{padding:12px 14px;font-size:20px}
-.form-buttons{grid-column:span 5}
-.form button{padding:16px;font-size:20px;background:#114a86;color:white;border:none;border-radius:6px;cursor:pointer}
+.sidebar a.logout-link { color: #d32f2f; }
 
-.province-title{margin-top:35px;background:#083c3f;color:white;padding:12px;font-size:40px;border-radius:8px}
-.municipality-title{margin-bottom:18px;font-size:30px;font-weight:600}
+/* MAIN PAGE */
+.page{
+  flex:1;
+  padding:20px;
+  transition:margin-left .3s;
+}
 
-.record-card table{width:100%;border-collapse:collapse;font-size:25px}
-.record-card th{background:#cfd8dc;padding:12px;text-align:left}
-.record-card td{padding:10px;border-bottom:1px solid #ddd}
-.record-card table button{padding:8px 12px;font-size:20px;margin-right:6px;border:none;border-radius:4px;cursor:pointer}
-.record-card table button:first-child{background:#0b68a5;color:white}
-.record-card table button:last-child{background:#f44336;color:white}
-.empty{padding:15px;background:#fff3cd;border-radius:8px;margin-top:10px}
+.page.shifted{ margin-left:260px; }
+
+/* HEADER */
+.top-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#114a86;
+  color:white;
+  padding:15px;
+  border-radius:10px;
+}
+
+.header-title{
+  font-size:clamp(1.2rem, 2.5vw, 2rem);
+  font-weight:700;
+  text-align:center;
+  flex:1;
+}
+
+.hamburger-btn{
+  font-size:1.5rem;
+  background:#083c3f;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* FORM TOGGLE */
+.form-toggle{ margin-top:15px; }
+
+.toggle-btn{
+  padding:10px 16px;
+  font-size:1rem;
+  background:#114a86;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* CARD */
+.card{
+  background:white;
+  padding:20px;
+  margin-top:20px;
+  border-radius:12px;
+  box-shadow:0 5px 10px rgba(0,0,0,.1);
+}
+
+/* FORM GRID */
+.form{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:12px;
+}
+
+.form input{
+  padding:10px;
+  font-size:0.95rem;
+}
+
+.form-buttons{
+  grid-column:1/-1;
+}
+
+.form button{
+  padding:12px;
+  font-size:1rem;
+  background:#114a86;
+  color:white;
+  border:none;
+  border-radius:6px;
+}
+
+/* TITLES */
+.province-title{
+  margin-top:25px;
+  background:#083c3f;
+  color:white;
+  padding:10px;
+  font-size:clamp(1.2rem,2vw,1.5rem);
+  border-radius:8px;
+}
+
+.municipality-title{
+  margin-bottom:10px;
+  font-size:1.2rem;
+}
+
+/* TABLE RESPONSIVE */
+.record-card{
+  overflow-x:auto; /* 🔥 IMPORTANT */
+}
+
+.record-card table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.9rem;
+  min-width:700px; /* para hindi siksikan */
+}
+
+.record-card th{
+  background:#cfd8dc;
+  padding:10px;
+}
+
+.record-card td{
+  padding:8px;
+  border-bottom:1px solid #ddd;
+}
+
+.record-card button{
+  padding:6px 10px;
+  font-size:0.8rem;
+  margin:2px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.record-card button:first-child{
+  background:#0b68a5;
+  color:white;
+}
+
+.record-card button:last-child{
+  background:#f44336;
+  color:white;
+}
+
+.empty{
+  padding:10px;
+  background:#fff3cd;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width:768px){
+
+  .page{
+    padding:10px;
+  }
+
+  .page.shifted{
+    margin-left:0; /* wag na i-push sa mobile */
+  }
+
+  .header-title{
+    font-size:1rem;
+  }
+
+  .sidebar{
+    width:220px;
+  }
+
+}
 </style>

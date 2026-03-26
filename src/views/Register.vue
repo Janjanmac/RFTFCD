@@ -1,46 +1,95 @@
 <template>
-  <div class="auth-page">
-    <!-- Background Design -->
-    <div class="bg-overlay"></div>
+  <div class="login-page">
 
-    <!-- Form Card -->
-    <div class="auth-container">
-      <h2>Create Account</h2>
-      <p class="subtitle">Sign up to get started 🚀</p>
+    <div class="login-container">
 
-      <form @submit.prevent="registerUser">
-        <div class="input-group">
-          <input v-model="email" type="email" required />
-          <label>Email</label>
+      <!-- LEFT SIDE -->
+      <div class="login-left">
+
+        <div class="header-left">
+          <div class="logo">
+            <h1>BFAR</h1>
+            <p>Fish Warden Information System</p>
+          </div>
+
+          <h2>Create Account</h2>
+
+          <div class="subheading">
+            <span class="sub">Register to get started</span>
+          </div>
         </div>
 
-        <div class="input-group">
-          <input v-model="password" type="password" required />
-          <label>Password</label>
+        <form @submit.prevent="registerUser">
+
+          <!-- EMAIL -->
+          <div class="input-group">
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+
+          <!-- PASSWORD -->
+          <div class="input-group">
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <!-- CONFIRM PASSWORD -->
+          <div class="input-group">
+            <input
+              v-model="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+
+          <button class="login-btn">
+            Register
+          </button>
+
+          <router-link to="/login" class="create-btn">
+            Already have an account
+          </router-link>
+
+        </form>
+
+        <p v-if="error" class="error">{{ error }}</p>
+
+      </div>
+
+      <!-- RIGHT SIDE IMAGE -->
+      <div class="login-right">
+
+        <div class="image-overlay"></div>
+
+        <img src="../assets/bfar.jpg" />
+
+        <div class="system-info">
+          <h2>BFAR Monitoring</h2>
+          <p>Protecting Fisheries Resources</p>
         </div>
 
-        <div class="input-group">
-          <input v-model="confirmPassword" type="password" required />
-          <label>Confirm Password</label>
-        </div>
+      </div>
 
-        <button type="submit">Register</button>
-      </form>
-
-      <p class="switch">
-        Already have an account?
-        <router-link to="/login">Login here</router-link>
-      </p>
-
-      <p class="error" v-if="error">{{ error }}</p>
     </div>
+
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
@@ -48,6 +97,8 @@ export default {
     const password = ref("");
     const confirmPassword = ref("");
     const error = ref("");
+
+    const router = useRouter();
 
     const registerUser = async () => {
       error.value = "";
@@ -58,153 +109,257 @@ export default {
       }
 
       try {
-        await createUserWithEmailAndPassword(
+        const userCredential = await createUserWithEmailAndPassword(
           auth,
           email.value,
           password.value
         );
 
+        const user = userCredential.user;
+
+        /* 🔥 SAVE USER ROLE SA FIRESTORE */
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          role: "user" // default role
+        });
+
         alert("Registration Successful!");
-        window.location.href = "/login";
+        router.push("/login");
+
       } catch (err) {
         error.value = err.message;
       }
     };
 
-    return { email, password, confirmPassword, registerUser, error };
-  },
+    return {
+      email,
+      password,
+      confirmPassword,
+      registerUser,
+      error
+    };
+  }
 };
 </script>
 
 <style scoped>
-/* PAGE BACKGROUND */
-.auth-page {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  position: relative;
-  padding: 20px;
+
+/* PAGE */
+.login-page{
+  min-height:90vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#7db0fc,#f4f7fb);
+  padding:20px;
 }
 
-/* GLASS EFFECT OVERLAY */
-.bg-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
+/* CONTAINER */
+.login-container{
+  width:100%;
+  max-width:900px;
+  min-height:550px;
+
+  display:flex;
+  flex-direction:row;
+
+  border-radius:18px;
+  overflow:hidden;
+
+  box-shadow:0 25px 50px rgba(0,0,0,0.2);
+  background:rgb(255, 255, 255);
 }
 
-/* FORM CARD */
-.auth-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 400px;
-  padding: 30px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  color: white;
-  text-align: center;
+/* LEFT */
+.login-left{
+  width:50%;
+  padding:40px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-/* TITLE */
-.auth-container h2 {
-  margin-bottom: 5px;
+/* HEADER */
+.header-left {
+  text-align:center;
 }
 
-.subtitle {
-  font-size: 14px;
-  margin-bottom: 20px;
-  opacity: 0.8;
+.header-left h1{
+  font-size:40px;
+  color:#0d5c63;
+  margin:0;
 }
 
-/* INPUT GROUP */
-.input-group {
-  position: relative;
-  margin-bottom: 20px;
+.header-left p{
+  font-size:16px;
+  color:#777;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  font-size: 14px;
+.header-left h2{
+  margin:10px 0;
+  font-size:28px;
 }
 
-/* FLOATING LABEL */
-.input-group label {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  color: #ddd;
-  font-size: 13px;
-  pointer-events: none;
-  transition: 0.3s;
+/* SUB */
+.subheading .sub{
+  font-size:14px;
+  color:#777;
 }
 
-/* FLOAT EFFECT */
-.input-group input:focus + label,
-.input-group input:valid + label {
-  top: -8px;
-  left: 10px;
-  font-size: 11px;
-  color: #fff;
+/* INPUT */
+.input-group input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+
+  border-radius:8px;
+  border:1px solid #ddd;
+
+  font-size:14px;
 }
 
 /* BUTTON */
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #333;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+.login-btn{
+  width:100%;
+  padding:12px;
+
+  background:#0d5c63;
+  color:white;
+
+  border:none;
+  border-radius:8px;
+
+  font-weight:bold;
+  margin-bottom:10px;
+
+  cursor:pointer;
+  transition:.3s;
 }
 
-button:hover {
-  background: #f1f1f1;
-  transform: scale(1.03);
+.login-btn:hover{
+  background:#0b4a50;
 }
 
-/* SWITCH TEXT */
-.switch {
-  margin-top: 15px;
-  font-size: 13px;
+/* LINK BUTTON */
+.create-btn{
+  display:block;
+  text-align:center;
+
+  padding:12px;
+
+  border-radius:8px;
+  border:1px solid #0d5c63;
+
+  text-decoration:none;
+  color:#0d5c63;
+
+  font-weight:bold;
 }
 
-.switch a {
-  color: #fff;
-  font-weight: bold;
-  text-decoration: underline;
+/* RIGHT */
+.login-right{
+  width:50%;
+  position:relative;
+  overflow:hidden;
+}
+
+.login-right img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  animation:zoom 20s infinite alternate;
+}
+
+.image-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0, 0, 0, 0.997);
+}
+
+.system-info{
+  position:absolute;
+  bottom:20px;
+  left:20px;
+  color:white;
+}
+
+.system-info h2{
+  font-size:22px;
+}
+
+.system-info p{
+  font-size:14px;
 }
 
 /* ERROR */
-.error {
-  margin-top: 10px;
-  color: #ff4d4d;
-  font-size: 13px;
+.error{
+  color:red;
+  margin-top:10px;
+  font-size:12px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 480px) {
-  .auth-container {
-    padding: 20px;
+/* ANIMATION */
+@keyframes zoom{
+  from{ transform:scale(1); }
+  to{ transform:scale(1.1); }
+}
+
+/* TABLET */
+@media (max-width: 900px){
+  .login-container{
+    flex-direction:column;
   }
 
-  .auth-container h2 {
-    font-size: 20px;
+  .login-left,
+  .login-right{
+    width:100%;
+  }
+
+  .login-right{
+    height:220px;
   }
 }
+
+/* MOBILE */
+@media (max-width: 500px){
+
+  .login-left{
+    padding:20px;
+  }
+
+  .header-left h1{
+    font-size:28px;
+  }
+
+  .header-left h2{
+    font-size:22px;
+  }
+
+  .input-group input{
+    font-size:13px;
+    padding:10px;
+  }
+
+  .login-btn,
+  .create-btn{
+    font-size:13px;
+    padding:10px;
+  }
+
+  .system-info{
+    bottom:10px;
+    left:10px;
+  }
+
+  .system-info h2{
+    font-size:18px;
+  }
+
+  .system-info p{
+    font-size:12px;
+  }
+
+}
+
 </style>
