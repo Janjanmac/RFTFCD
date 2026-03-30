@@ -223,7 +223,7 @@ remember
 /* CONTAINER */
 .login-container{
   width:100%;
-  max-width:900px;
+  max-width:1000px;
   min-height:550px;
 
   display:flex;
