@@ -209,9 +209,10 @@ municipality:this.selectedMunicipality
 
 <style scoped>
 .page {
-  min-height: 90%;
+  min-height: 100vh;
   background: linear-gradient(135deg,#d8e7ff,#eff6ff);
-  padding-bottom: 30px;
+  padding: 0 10px 30px;
+  box-sizing: border-box;
 }
 
 /* HEADER */
@@ -257,47 +258,60 @@ municipality:this.selectedMunicipality
   width: 100%;
   max-width: 420px;
   background: white;
-  padding: 20px;
+  padding: clamp(15px, 4vw, 25px);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  margin: 0 auto;
 }
 
 /* TEXT */
 .card h2 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  margin-bottom: clamp(8px, 2vw, 15px);
+  text-align: center;
 }
 
 /* LABEL */
 label {
   display: block;
-  margin-top: 10px;
+  margin-top: clamp(8px, 2vw, 12px);
   font-weight: bold;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
 }
 
 /* SELECT */
 select {
   width: 100%;
-  padding: 10px;
+  padding: clamp(8px, 2vw, 12px);
   margin-top: 5px;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
+  margin-bottom: clamp(8px, 2vw, 15px);
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
   border-radius: 6px;
   border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #5ca5ff;
+  box-shadow: 0 0 0 2px rgba(92, 165, 255, 0.2);
 }
 
 /* BUTTON */
 button {
   width: 100%;
-  padding: 12px;
+  padding: clamp(10px, 3vw, 14px);
   border: none;
   background: #5ca5ff;
   color: white;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s;
+  font-weight: 600;
+  margin-top: clamp(5px, 2vw, 10px);
 }
 
 button:hover {
@@ -308,21 +322,95 @@ button:disabled {
   background: #aaa;
 }
 
-/* 📱 MOBILE */
+/* MOBILE */
 @media (max-width: 768px) {
+  .page {
+    padding: 0 5px 20px;
+  }
 
   .header-image {
-    max-height: 150px;
+    max-height: 120px;
+  }
+
+  .title-section {
+    margin-top: 10px;
+  }
+
+  .dashboard {
+    margin-top: 15px;
+    padding: 0 5px;
   }
 
   .card {
     padding: 15px;
+    border-radius: 10px;
   }
 
   button {
     font-size: 0.9rem;
     padding: 10px;
   }
+}
 
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .header-image {
+    max-height: 100px;
+  }
+
+  .title-section h1 {
+    font-size: 1.3rem;
+  }
+
+  .title-section p {
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .card h2 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  label {
+    font-size: 0.8rem;
+    margin-top: 6px;
+  }
+
+  select {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  button {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+/* LARGE SCREENS */
+@media (min-width: 1200px) {
+  .card {
+    max-width: 450px;
+    padding: 30px;
+  }
+
+  .card h2 {
+    font-size: 1.4rem;
+  }
+
+  select {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 16px;
+    font-size: 1.1rem;
+  }
 }
 </style>
