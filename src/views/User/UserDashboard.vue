@@ -209,7 +209,7 @@ municipality:this.selectedMunicipality
 
 <style scoped>
 .page {
-  min-height: 100vh;
+  min-height: 80vh;
   background: linear-gradient(135deg,#d8e7ff,#eff6ff);
   padding: 0 10px 30px;
   box-sizing: border-box;
